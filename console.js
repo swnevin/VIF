@@ -123,7 +123,7 @@ const FormExtension = {
 };
 
 
-
+let widgetStyleSheet = "https://swnevin.github.io/VIF/style.css"
 let proactiveMessage = "Hei, jeg hjelper deg gjerne!👋";
 
     (function(d, t) {
@@ -135,7 +135,8 @@ let proactiveMessage = "Hei, jeg hjelper deg gjerne!👋";
           versionID: 'production',
           allowDangerousHTML: true,
           assistant: {
-            extensions: [FormExtension]
+            extensions: [FormExtension],
+            stylesheet: widgetStyleSheet
           }
         }).then(() => {
           console.log('Voiceflow widget loaded successfully');
