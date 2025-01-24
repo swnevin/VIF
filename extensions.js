@@ -103,14 +103,36 @@ const DoneAnimationExtension = {
   match: ({ trace }) =>
     trace.type === 'ext_doneAnimation' || trace.payload?.name === 'ext_doneAnimation',
   render: async ({ trace, element }) => {
-    window.vf_done = true
-    await new Promise((resolve) => setTimeout(resolve, 250))
+    window.vf_done = true; // Sett flagget som ferdig
+    await new Promise((resolve) => setTimeout(resolve, 250));
+
+    // Fjern tekstboblen etter en liten forsinkelse for å sikre synkronisering
+    const doneContainer = element.closest('.vfrc-message--extension-DoneAnimation');
+    if (doneContainer) {
+      const checkDoneInterval = setInterval(() => {
+        if (window.vf_done) {
+          clearInterval(checkDoneInterval);
+          doneContainer.style.display = 'none'; // Skjul tekstboblen
+          window.vf_done = false;
+        }
+      }, 100);
+
+      // Legg til en ekstra sikkerhetsmekanisme for å skjule boblen etter en viss tid
+      const delay = 1000; // Juster forsinkelsen om nødvendig
+      setTimeout(() => {
+        clearInterval(checkDoneInterval);
+        if (doneContainer) {
+          doneContainer.style.display = 'none';
+        }
+      }, delay);
+    }
 
     window.voiceflow.chat.interact({
       type: 'continue',
-    })
+    });
   },
-}
+};
+
 
 
 const FormExtension = {
