@@ -13,7 +13,7 @@ const WaitingAnimationExtension = {
     const delay = trace.payload?.delay || 3000
 
     const waitingContainer = document.createElement('div')
-    waitingContainer.innerHTML = 
+    waitingContainer.innerHTML = `
       <style>
         .vfrc-message--extension-WaitingAnimation {
           background-color: transparent !important;
@@ -42,8 +42,8 @@ const WaitingAnimationExtension = {
         .spinner {
           width: 20px;
           height: 20px;
-          border: 2px solid #fffc;
-          border-top: 2px solid #CF0A2C;
+          border: 2px solid #0A3B93; /* Endret spinner-farge */
+          border-top: 2px solid #0A3B93; /* Endret toppfarge */
           border-radius: 50%;
           animation: spin 1s linear infinite;
         }
@@ -59,13 +59,13 @@ const WaitingAnimationExtension = {
           .map((letter, index) =>
             letter === ' '
               ? ' '
-              : <span class="waiting-letter" style="animation-delay: ${
+              : `<span class="waiting-letter" style="animation-delay: ${
                   index * (1000 / text.length)
-                }ms">${letter}</span>
+                }ms">${letter}</span>`
           )
           .join('')}</span>
       </div>
-    
+    `
 
     element.appendChild(waitingContainer)
 
@@ -93,6 +93,7 @@ const WaitingAnimationExtension = {
   },
 }
 
+
 // This extension triggers a "done" action,
 // typically used to signal the completion of a task
 // and hide a previous WaitingAnimation
@@ -110,7 +111,6 @@ const DoneAnimationExtension = {
     })
   },
 }
-
 
 
 const FormExtension = {
