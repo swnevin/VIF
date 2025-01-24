@@ -13,7 +13,7 @@ const WaitingAnimationExtension = {
     const delay = trace.payload?.delay || 3000
 
     const waitingContainer = document.createElement('div')
-    waitingContainer.innerHTML = `
+    waitingContainer.innerHTML = 
       <style>
         .vfrc-message--extension-WaitingAnimation {
           background-color: transparent !important;
@@ -59,13 +59,13 @@ const WaitingAnimationExtension = {
           .map((letter, index) =>
             letter === ' '
               ? ' '
-              : `<span class="waiting-letter" style="animation-delay: ${
+              : <span class="waiting-letter" style="animation-delay: ${
                   index * (1000 / text.length)
-                }ms">${letter}</span>`
+                }ms">${letter}</span>
           )
           .join('')}</span>
       </div>
-    `
+    
 
     element.appendChild(waitingContainer)
 
@@ -76,7 +76,7 @@ const WaitingAnimationExtension = {
     let intervalCleared = false
     window.vf_done = false
 
-const checkDoneInterval = setInterval(() => {
+    const checkDoneInterval = setInterval(() => {
       if (window.vf_done) {
         clearInterval(checkDoneInterval)
         waitingContainer.style.display = 'none'
@@ -93,7 +93,6 @@ const checkDoneInterval = setInterval(() => {
   },
 }
 
-
 // This extension triggers a "done" action,
 // typically used to signal the completion of a task
 // and hide a previous WaitingAnimation
@@ -103,35 +102,14 @@ const DoneAnimationExtension = {
   match: ({ trace }) =>
     trace.type === 'ext_doneAnimation' || trace.payload?.name === 'ext_doneAnimation',
   render: async ({ trace, element }) => {
-    window.vf_done = true; // Sett flagget som ferdig
-    await new Promise((resolve) => setTimeout(resolve, 250));
-
-    // Fjern tekstboblen etter en liten forsinkelse for å sikre synkronisering
-    const doneContainer = element.closest('.vfrc-message--extension-DoneAnimation');
-    if (doneContainer) {
-      const checkDoneInterval = setInterval(() => {
-        if (window.vf_done) {
-          clearInterval(checkDoneInterval);
-          doneContainer.style.display = 'none'; // Skjul tekstboblen
-          window.vf_done = false;
-        }
-      }, 100);
-
-      // Legg til en ekstra sikkerhetsmekanisme for å skjule boblen etter en viss tid
-      const delay = 1000; // Juster forsinkelsen om nødvendig
-      setTimeout(() => {
-        clearInterval(checkDoneInterval);
-        if (doneContainer) {
-          doneContainer.style.display = 'none';
-        }
-      }, delay);
-    }
+    window.vf_done = true
+    await new Promise((resolve) => setTimeout(resolve, 250))
 
     window.voiceflow.chat.interact({
       type: 'continue',
-    });
+    })
   },
-};
+}
 
 
 
