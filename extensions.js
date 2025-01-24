@@ -76,22 +76,23 @@ const WaitingAnimationExtension = {
     let intervalCleared = false
     window.vf_done = false
 
-    const checkDoneInterval = setInterval(() => {
-  if (window.vf_done) {
-    clearInterval(checkDoneInterval)
-    waitingContainer.remove(); // Fjern elementet fra DOM
-    window.vf_done = false
-  }
-}, 100)
+const checkDoneInterval = setInterval(() => {
+      if (window.vf_done) {
+        clearInterval(checkDoneInterval)
+        waitingContainer.style.display = 'none'
+        window.vf_done = false
+      }
+    }, 100)
 
-setTimeout(() => {
-  if (!intervalCleared) {
-    clearInterval(checkDoneInterval)
-    waitingContainer.remove(); // Fjern elementet fra DOM
-  }
-}, delay)
+    setTimeout(() => {
+      if (!intervalCleared) {
+        clearInterval(checkDoneInterval)
+        waitingContainer.style.display = 'none'
+      }
+    }, delay)
   },
 }
+
 
 // This extension triggers a "done" action,
 // typically used to signal the completion of a task
